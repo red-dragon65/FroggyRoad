@@ -3,13 +3,13 @@
 import java.util.Random;
 
 
-public class StripGenerator {
+class StripGenerator {
 
 	/**
 	 * Default constructor that returns a randomly
 	 * generated sprite strip.
 	 */
-	public Sprite[] getStrip() {
+	Sprite[] getStrip() {
 
 		//Array to hold strip.
 		Sprite[] spriteStrip = new Sprite[8];
@@ -68,7 +68,7 @@ public class StripGenerator {
 	 * Method to make a special strip (land/water)
 	 * with blockages/platforms.
 	 */
-	public Sprite makeSpecialStrip(int i, int x, String background, String specialBlockOne, String specialBlockTwo) {
+	private Sprite makeSpecialStrip(int i, int x, String background, String specialBlockOne, String specialBlockTwo) {
 
 		Sprite oneBlock = new Sprite();
 
@@ -108,7 +108,7 @@ public class StripGenerator {
 	/*
 	 * Returns a special land strip.
 	 */
-	public Sprite[] getLandStrip() {
+	Sprite[] getLandStrip() {
 
 		//Makes random numbers.
 		Random gen = new Random();
@@ -127,7 +127,7 @@ public class StripGenerator {
 	/*
 	 * Returns Specialized land strip.
 	 */
-	public Sprite[] getSpecialLandStrip() {
+	Sprite[] getSpecialLandStrip() {
 
 		//Makes random number.
 		Random gen = new Random();
@@ -148,7 +148,7 @@ public class StripGenerator {
 	/*
 	 * Returns a special water strip.
 	 */
-	public Sprite[] getWaterStrip() {
+	Sprite[] getWaterStrip() {
 
 		//Makes random numbers.
 		Random gen = new Random();

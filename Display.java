@@ -21,13 +21,14 @@ import java.util.Random;
  * JPanel to hold the game in the window.
  */
 //@SuppressWarnings("serial")
-public class Display extends JPanel implements ActionListener {
+class Display extends JPanel implements ActionListener {
 
 	//Variable for the game logo 'Froggy Road'.
-	Sprite logo = new Sprite("Logo.png");
-	boolean showLogo = false;
+	private Sprite logo = new Sprite("Logo.png");
+	private boolean showLogo = false;
 	//New game variables.
-	boolean newGame = false;
+	private boolean newGame = false;
+
 	/*
 	 * Variables.
 	 */
@@ -71,7 +72,7 @@ public class Display extends JPanel implements ActionListener {
 	/**
 	 * Default constructor.
 	 */
-	public Display(boolean pause) {
+	Display(boolean pause) {
 
 		//Set layout to absolute for buttons.
 		setLayout(null);
@@ -121,7 +122,7 @@ public class Display extends JPanel implements ActionListener {
 	/**
 	 * Method to set the initial location of all the sprites.
 	 */
-	public void setInitialLocations() {
+	private void setInitialLocations() {
 
 		//Sets the heros location.
 		hero.setXLoc(298);
@@ -248,7 +249,7 @@ public class Display extends JPanel implements ActionListener {
 	/**
 	 * Method that starts a new game.
 	 */
-	public void newGame() {
+	private void newGame() {
 
 		if (newGame) {
 
@@ -266,7 +267,7 @@ public class Display extends JPanel implements ActionListener {
 	 * Method that prevent hero from moving on trees, and checks
 	 * for death with water, train, or cars.
 	 */
-	public void heroCollision() {
+	private void heroCollision() {
 
 		//Invincibility timing.
 		if (invincibility < invDuration && invincibility > 0)
@@ -351,7 +352,7 @@ public class Display extends JPanel implements ActionListener {
 	 * one strip backwards WITHOUT OFF-SETTING THE
 	 * LOCATION DUE TO SCROLLING.
 	 */
-	public void jumpHero() {
+	private void jumpHero() {
 
 		//Holds the hero's location.
 		int location;
@@ -450,7 +451,7 @@ public class Display extends JPanel implements ActionListener {
 	 * Removes cars passing Y bounds.
 	 * Checks for car collisions.
 	 */
-	public void manageCars() {
+	private void manageCars() {
 
 		//Cycles through car sprites.
 		for (int i = 0; i < cars.size(); i++) {
@@ -479,7 +480,7 @@ public class Display extends JPanel implements ActionListener {
 	 * Removes trains passing Y bounds.
 	 * Checks for train collisions.
 	 */
-	public void manageTrains() {
+	private void manageTrains() {
 
 		//Cycles through car sprites.
 		for (int i = 0; i < trains.size(); i++) {
@@ -508,7 +509,7 @@ public class Display extends JPanel implements ActionListener {
 	 * Method to end game.
 	 * Stops loop, saves scores, displays message.
 	 */
-	public void killMsg(String killer) {
+	private void killMsg(String killer) {
 
 		repaint();
 		gameLoop.stop();
@@ -545,7 +546,7 @@ public class Display extends JPanel implements ActionListener {
 	/**
 	 * Method that correctly resets the strips.
 	 */
-	public void manageStrips() {
+	private void manageStrips() {
 
 		//All water strip variable.
 		int allWater;
@@ -696,7 +697,7 @@ public class Display extends JPanel implements ActionListener {
 	/**
 	 * Method that creates and resets cars on the road strip.
 	 */
-	public void setCars(int v) {
+	private void setCars(int v) {
 
 		//Sets car sprite.
 		if (allStrips[v][0].getFileName().equals("Road.png")) {
@@ -754,7 +755,7 @@ public class Display extends JPanel implements ActionListener {
 	/**
 	 * Method to return random car color.
 	 */
-	public String randomCar(String dir) {
+	private String randomCar(String dir) {
 
 		//Car color variables.
 		int carColor = rand.nextInt(8);
@@ -826,7 +827,7 @@ public class Display extends JPanel implements ActionListener {
 	/**
 	 * Method that creates and resets trains on the track strip.
 	 */
-	public void setTrains(int v) {
+	private void setTrains(int v) {
 
 		//Sets train sprite.
 		if (allStrips[v][0].getFileName().equals("Tracks.png")) {
@@ -878,7 +879,7 @@ public class Display extends JPanel implements ActionListener {
 	/**
 	 * Method to return a random colored train.
 	 */
-	public String randomTrain() {
+	private String randomTrain() {
 
 		int trainNum = rand.nextInt(10);
 		String trainImage = "";
@@ -917,7 +918,7 @@ public class Display extends JPanel implements ActionListener {
 	/**
 	 * Scrolls the strips and the hero.
 	 */
-	public void scrollScreen() {
+	private void scrollScreen() {
 
 		//Cycles through strip array.
 		for (int v = 0; v < numOfStrips; v++) {
@@ -935,7 +936,7 @@ public class Display extends JPanel implements ActionListener {
 	/**
 	 * Method to update high score.
 	 */
-	public void updateScores() {
+	private void updateScores() {
 
 		//Holds high score.
 		int fileScore = readScore();
@@ -966,7 +967,7 @@ public class Display extends JPanel implements ActionListener {
 	/**
 	 * Method that returns the high score.
 	 */
-	public int readScore() {
+	private int readScore() {
 
 		//Holds high score.
 		int fileScore = 0;
@@ -1084,7 +1085,7 @@ public class Display extends JPanel implements ActionListener {
 	 * Reads keyboard input for moving
 	 * when key is pressed down.
 	 */
-	public class KeyPressing extends KeyAdapter {
+	private class KeyPressing extends KeyAdapter {
 
 		public void keyPressed(KeyEvent e) {
 

@@ -1,23 +1,22 @@
-//Class for JFrame extension.
 
+//Class for JFrame extension.
 import javax.swing.*;
 
 
 /*/
  * Window that holds the Display JPanel.
  */
-//@SuppressWarnings("serial")
 public class Window extends JFrame {
 
 	//Variable for final JFrame size.
-	public final int HEIGHT = 800;
-	public final int WIDTH = 800;
+	private final int HEIGHT = 800;
+	private final int WIDTH = 800;
 
 
 	/**
 	 * Default constructor.
 	 */
-	public Window(boolean pause) {
+	Window(boolean pause) {
 
 		//Set the title.
 		setTitle("Frogger Remix");

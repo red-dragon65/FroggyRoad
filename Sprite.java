@@ -12,10 +12,10 @@ import java.awt.*;
  * Class that creates a sprite with an image, location,
  * directional movement and a collision method.
  */
-public class Sprite {
+class Sprite {
 
 	//Sprite location.
-	protected double xloc, yloc;
+	private double xloc, yloc;
 
 	//Sprite direction.
 	private double xdir, ydir;
@@ -33,7 +33,7 @@ public class Sprite {
 	/**
 	 * The default constructor.
 	 */
-	public Sprite() {
+	Sprite() {
 		image = null;
 		xloc = 0;
 		yloc = 0;
@@ -63,7 +63,7 @@ public class Sprite {
 	/**
 	 * Constructor that takes an image filename as the argument.
 	 */
-	public Sprite(String filename) {
+	Sprite(String filename) {
 		setImage(filename);
 	}
 
@@ -71,7 +71,7 @@ public class Sprite {
 	/*
 	 * Method to set the image variable.
 	 */
-	public void setImage(String filename) {
+	void setImage(String filename) {
 		this.filename = filename;
 
 		try {
@@ -85,7 +85,7 @@ public class Sprite {
 	 * Getters.
 	 */
 	//Get xloc.
-	public int getXLoc() {
+	int getXLoc() {
 		return (int) xloc;
 	}
 
@@ -93,17 +93,17 @@ public class Sprite {
 	 * Setters
 	 */
 	//Sets xloc.
-	public void setXLoc(int xloc) {
+	void setXLoc(int xloc) {
 		this.xloc = xloc;
 	}
 
 	//Get yloc.
-	public int getYLoc() {
+	int getYLoc() {
 		return (int) yloc;
 	}
 
 	//Sets yloc.
-	public void setYLoc(int yloc) {
+	void setYLoc(int yloc) {
 		this.yloc = yloc;
 	}
 
@@ -113,7 +113,7 @@ public class Sprite {
 	}
 
 	//Sets xdir.
-	public void setXDir(double xdir) {
+	void setXDir(double xdir) {
 		this.xdir = xdir;
 	}
 
@@ -123,12 +123,12 @@ public class Sprite {
 	}
 
 	//Sets ydir.
-	public void setYDir(double ydir) {
+	void setYDir(double ydir) {
 		this.ydir = ydir;
 	}
 
 	//Get image filename.
-	public String getFileName() {
+	String getFileName() {
 		return filename;
 	}
 
@@ -137,7 +137,7 @@ public class Sprite {
 	 * Moves character by adding the 
 	 * direction to the location.
 	 */
-	public void move() {
+	void move() {
 		xloc += xdir;
 		yloc += ydir;
 	}
@@ -148,7 +148,7 @@ public class Sprite {
 	 */
 	//Return the width of the sprite
 	//or 20 if the image is null.
-	public int getWidth() {
+	private int getWidth() {
 		if (image == null)
 			return 20;
 		else
@@ -157,7 +157,7 @@ public class Sprite {
 
 	//Return the height of the sprite
 	//or 20 if the image in null.
-	public int getHeight() {
+	private int getHeight() {
 		if (image == null)
 			return 20;
 		else
@@ -165,7 +165,7 @@ public class Sprite {
 	}
 
 	//Method to check for collisions.
-	public boolean isCollision(Sprite obj) {
+	boolean isCollision(Sprite obj) {
 
 		//Creates rectangles around sprites and checks for interesection.
 		Rectangle sprite = new Rectangle((int) xloc, (int) yloc, getWidth(), getHeight());
@@ -178,7 +178,7 @@ public class Sprite {
 	/*
 	 * Method to draw sprite onto JPanel.
 	 */
-	public void paint(Graphics g, JPanel panel) {
+	void paint(Graphics g, JPanel panel) {
 		if (show) {
 			if (image == null)
 				g.drawRect((int) xloc, (int) yloc, 20, 20);
