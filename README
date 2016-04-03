@@ -1,0 +1,18 @@
+--Title--
+Final project for java class.
+
+
+--Description--
+A simple game made in java. Inspired by the CrossyRoad app on android.
+
+
+--Changes--
+*Added game to git.
+*Created README.txt file.
+*Cleaned some code.
+
+
+--To Fix--
+*Change java file handling to clean file directory.
+*Add sound effects to game.
+*Update sprites to 8-bit style.
