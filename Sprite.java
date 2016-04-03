@@ -181,7 +181,7 @@ class Sprite {
 	void paint(Graphics g, JPanel panel) {
 		if (show) {
 			if (image == null)
-				g.drawRect((int) xloc, (int) yloc, 20, 20);
+				g.drawRect((int) xloc, (int) yloc, 50, 50);
 			else
 				image.paintIcon(panel, g, (int) xloc, (int) yloc);
 		}

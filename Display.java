@@ -24,7 +24,7 @@ import java.util.Random;
 class Display extends JPanel implements ActionListener {
 
 	//Variable for the game logo 'Froggy Road'.
-	private Sprite logo = new Sprite("Logo.png");
+	private Sprite logo = new Sprite("Misc/Logo.png");
 	private boolean showLogo = false;
 	//New game variables.
 	private boolean newGame = false;
@@ -50,7 +50,7 @@ class Display extends JPanel implements ActionListener {
 
 
 	//Create hero sprite.
-	private Sprite hero = new Sprite("Frog_up.png");
+	private Sprite hero = new Sprite("Frog/Frog_up.png");
 
 	//Variable to hold score and travel.
 	private int score = 0, movement = 0;
@@ -78,9 +78,9 @@ class Display extends JPanel implements ActionListener {
 		setLayout(null);
 
 		//Create button component, set image, remove borders.
-		startButton = new JButton(new ImageIcon(getClass().getResource("Start.png")));
+		startButton = new JButton(new ImageIcon(getClass().getResource("Misc/Start.png")));
 		startButton.setBorder(BorderFactory.createEmptyBorder());
-		controlsButton = new JButton(new ImageIcon(getClass().getResource("Controls.png")));
+		controlsButton = new JButton(new ImageIcon(getClass().getResource("Misc/Controls.png")));
 		controlsButton.setBorder(BorderFactory.createEmptyBorder());
 
 		startButton.addActionListener(this);
@@ -141,8 +141,8 @@ class Display extends JPanel implements ActionListener {
 
 		//Sets a grass image under and in front of the frog location.
 		//(Prevents the frog from starting on a tree or shrub)
-		allStrips[5][3].setImage("Grass.png");
-		allStrips[4][3].setImage("Grass.png");
+		allStrips[5][3].setImage("Misc/Grass.png");
+		allStrips[4][3].setImage("Misc/Grass.png");
 		
 		
 		/*
@@ -170,7 +170,7 @@ class Display extends JPanel implements ActionListener {
 		//Sets special array to first initialized land sprite array.
 		//Prevents water/lillypad offset if it is generated right after the grass field.
 		for (int i = 0; i < 8; i++) {
-			if (allStrips[0][i].getFileName().equals("Grass.png")) {
+			if (allStrips[0][i].getFileName().equals("Misc/Grass.png")) {
 				special.add(i);
 				land++;
 			}
@@ -292,7 +292,7 @@ class Display extends JPanel implements ActionListener {
 				if (invincibility <= 0) {
 
 					//Prevents hero from jumping through trees.
-					if (s.getFileName().equals("Tree_One.png") || s.getFileName().equals("Tree_Two.png")) {
+					if (s.getFileName().equals("Misc/Tree_One.png") || s.getFileName().equals("Misc/Tree_Two.png")) {
 						if (hero.isCollision(s)) {
 
 							if ((s.getYLoc() + 100) - (hero.getYLoc()) < 5 && (s.getXLoc() + 100) - hero.getXLoc() < 125 && (s.getXLoc() + 100) - hero.getXLoc() > 20) {
@@ -308,7 +308,7 @@ class Display extends JPanel implements ActionListener {
 					}
 
 					//Ends game if user lands on water.
-					if (s.getFileName().equals("Water.png")) {
+					if (s.getFileName().equals("Misc/Water.png")) {
 						if (s.getXLoc() - hero.getXLoc() > 0 && s.getXLoc() - hero.getXLoc() < 10) {
 							if (s.getYLoc() - hero.getYLoc() > 0 && s.getYLoc() - hero.getYLoc() < 10) {
 
@@ -364,11 +364,11 @@ class Display extends JPanel implements ActionListener {
 		if (left > 0 && press) {
 			hero.setXDir(-12.5);
 			left--;
-			hero.setImage("Frog_Left.png");
+			hero.setImage("Frog/Frog_Left.png");
 		} else if (right > 0 && press) {
 			hero.setXDir(12.5);
 			right--;
-			hero.setImage("Frog_Right.png");
+			hero.setImage("Frog/Frog_Right.png");
 		} else if (left == 0 && right == 0 && up == 0 && down == 0) {
 			hero.setXDir(0);
 			press = false;
@@ -381,7 +381,7 @@ class Display extends JPanel implements ActionListener {
 			//Set hero speed.
 			hero.setYDir(-10);
 			hero.move();
-			hero.setImage("Frog_up.png");
+			hero.setImage("Frog/Frog_up.png");
 
 			//Get hero Y location.
 			location = hero.getYLoc();
@@ -414,7 +414,7 @@ class Display extends JPanel implements ActionListener {
 			//Set hero speed.
 			hero.setYDir(10);
 			hero.move();
-			hero.setImage("Frog_Down.png");
+			hero.setImage("Frog/Frog_Down.png");
 
 			//Get hero location
 			location = hero.getYLoc();
@@ -573,9 +573,9 @@ class Display extends JPanel implements ActionListener {
 
 					//Check sprites in strip.
 					for (Sprite s : allStrips[v]) {
-						if (s.getFileName().equals("Water.png"))
+						if (s.getFileName().equals("Misc/Water.png"))
 							allWater++;
-						if (s.getFileName().equals("Grass.png"))
+						if (s.getFileName().equals("Misc/Grass.png"))
 							allGrass++;
 					}
 
@@ -590,34 +590,34 @@ class Display extends JPanel implements ActionListener {
 
 				//If there was previously a water strip, and this strip is a water strip, match this strips lillypads to the previous strip.
 				if (water > 0) {
-					if (allStrips[v][0].getFileName().equals("Water.png") || allStrips[v][0].getFileName().equals("Lillypad.png")) {
+					if (allStrips[v][0].getFileName().equals("Misc/Water.png") || allStrips[v][0].getFileName().equals("Misc/Lillypad.png")) {
 
 						water = 0;
 
 						for (int i : special) {
-							allStrips[v][i].setImage("Lillypad.png");
+							allStrips[v][i].setImage("Misc/Lillypad.png");
 						}
 					}
 				}
 
 				//If there was previously a water strip, and this strip is a land strip, match the grass to the previous strips lillypads.
 				if (water > 0) {
-					if (allStrips[v][0].getFileName().equals("Grass.png") || allStrips[v][0].getFileName().equals("Shrub.png") ||
-							allStrips[v][0].getFileName().equals("Tree_One.png") || allStrips[v][0].getFileName().equals("Tree_Two.png")) {
+					if (allStrips[v][0].getFileName().equals("Misc/Grass.png") || allStrips[v][0].getFileName().equals("Misc/Shrub.png") ||
+							allStrips[v][0].getFileName().equals("Misc/Tree_One.png") || allStrips[v][0].getFileName().equals("Misc/Tree_Two.png")) {
 
 						allStrips[v] = stripGen.getSpecialLandStrip();
 
 						water = 0;
 
 						for (int i : special) {
-							allStrips[v][i].setImage("Grass.png");
+							allStrips[v][i].setImage("Misc/Grass.png");
 						}
 					}
 				}
 
 				//If there was previously a land strip, and this strip is a water strip, match the lillypads to the grass.
 				if (land > 0) {
-					if (allStrips[v][0].getFileName().equals("Water.png") || allStrips[v][0].getFileName().equals("LilyPad.png")) {
+					if (allStrips[v][0].getFileName().equals("Misc/Water.png") || allStrips[v][0].getFileName().equals("LilyPad.png")) {
 
 						land = 0;
 
@@ -628,7 +628,7 @@ class Display extends JPanel implements ActionListener {
 							allStrips[v] = stripGen.getWaterStrip();
 
 							for (int i = 0; i < 8; i++) {
-								if (allStrips[v][i].getFileName().equals("Lillypad.png")) {
+								if (allStrips[v][i].getFileName().equals("Misc/Lillypad.png")) {
 									//TODO: Remove
 									for (int x = 0; x < special.size(); x++) {
 										if (i == special.get(x)) {
@@ -644,14 +644,14 @@ class Display extends JPanel implements ActionListener {
 
 
 				//if there is a water strip, write down the index of the Lillypads.
-				if (allStrips[v][0].getFileName().equals("Water.png") || allStrips[v][0].getFileName().equals("Lillypad.png")) {
+				if (allStrips[v][0].getFileName().equals("Misc/Water.png") || allStrips[v][0].getFileName().equals("Misc/Lillypad.png")) {
 
 					special.clear();
 
 					water = 0;
 
 					for (int i = 0; i < 8; i++) {
-						if (allStrips[v][i].getFileName().equals("Lillypad.png")) {
+						if (allStrips[v][i].getFileName().equals("Misc/Lillypad.png")) {
 							special.add(i);
 							water++;
 						}
@@ -660,15 +660,15 @@ class Display extends JPanel implements ActionListener {
 					water = 0;
 
 				//if there is a land strip, write down the index of the grass.
-				if (allStrips[v][0].getFileName().equals("Grass.png") || allStrips[v][0].getFileName().equals("Shrub.png") ||
-						allStrips[v][0].getFileName().equals("Tree_One.png") || allStrips[v][0].getFileName().equals("Tree_Two.png")) {
+				if (allStrips[v][0].getFileName().equals("Misc/Grass.png") || allStrips[v][0].getFileName().equals("Misc/Shrub.png") ||
+						allStrips[v][0].getFileName().equals("Misc/Tree_One.png") || allStrips[v][0].getFileName().equals("Misc/Tree_Two.png")) {
 
 					special.clear();
 
 					land = 0;
 
 					for (int i = 0; i < 8; i++) {
-						if (allStrips[v][i].getFileName().equals("Grass.png")) {
+						if (allStrips[v][i].getFileName().equals("Misc/Grass.png")) {
 							special.add(i);
 							land++;
 						}
@@ -700,7 +700,7 @@ class Display extends JPanel implements ActionListener {
 	private void setCars(int v) {
 
 		//Sets car sprite.
-		if (allStrips[v][0].getFileName().equals("Road.png")) {
+		if (allStrips[v][0].getFileName().equals("Misc/Road.png")) {
 
 			//Makes sprite.
 			Sprite car = new Sprite();
@@ -765,28 +765,28 @@ class Display extends JPanel implements ActionListener {
 
 			switch (carColor) {
 				case 0:
-					carImage = "Car_Left_Blue.png";
+					carImage = "/Car_Left/Car_Left_Blue.png";
 					break;
 				case 1:
-					carImage = "Car_Left_Green.png";
+					carImage = "/Car_Left/Car_Left_Green.png";
 					break;
 				case 2:
-					carImage = "Car_Left_Grey.png";
+					carImage = "/Car_Left/Car_Left_Grey.png";
 					break;
 				case 3:
-					carImage = "Car_Left_Orange.png";
+					carImage = "/Car_Left/Car_Left_Orange.png";
 					break;
 				case 4:
-					carImage = "Car_Left_Purple.png";
+					carImage = "/Car_Left/Car_Left_Purple.png";
 					break;
 				case 5:
-					carImage = "Car_Left_Red.png";
+					carImage = "/Car_Left/Car_Left_Red.png";
 					break;
 				case 6:
-					carImage = "Car_Left_White.png";
+					carImage = "/Car_Left/Car_Left_White.png";
 					break;
 				case 7:
-					carImage = "Car_Left_Yellow.png";
+					carImage = "/Car_Left/Car_Left_Yellow.png";
 					break;
 			}
 		}
@@ -795,28 +795,28 @@ class Display extends JPanel implements ActionListener {
 
 			switch (carColor) {
 				case 0:
-					carImage = "Car_Right_Blue.png";
+					carImage = "/Car_Right/Car_Right_Blue.png";
 					break;
 				case 1:
-					carImage = "Car_Right_Green.png";
+					carImage = "/Car_Right/Car_Right_Green.png";
 					break;
 				case 2:
-					carImage = "Car_Right_Grey.png";
+					carImage = "/Car_Right/Car_Right_Grey.png";
 					break;
 				case 3:
-					carImage = "Car_Right_Orange.png";
+					carImage = "/Car_Right/Car_Right_Orange.png";
 					break;
 				case 4:
-					carImage = "Car_Right_Purple.png";
+					carImage = "/Car_Right/Car_Right_Purple.png";
 					break;
 				case 5:
-					carImage = "Car_Right_Red.png";
+					carImage = "/Car_Right/Car_Right_Red.png";
 					break;
 				case 6:
-					carImage = "Car_Right_White.png";
+					carImage = "/Car_Right/Car_Right_White.png";
 					break;
 				case 7:
-					carImage = "Car_Right_Yellow.png";
+					carImage = "/Car_Right/Car_Right_Yellow.png";
 					break;
 			}
 		}
@@ -830,7 +830,7 @@ class Display extends JPanel implements ActionListener {
 	private void setTrains(int v) {
 
 		//Sets train sprite.
-		if (allStrips[v][0].getFileName().equals("Tracks.png")) {
+		if (allStrips[v][0].getFileName().equals("Misc/Tracks.png")) {
 
 			//Makes sprite.
 			Sprite train = new Sprite(randomTrain());
@@ -887,28 +887,28 @@ class Display extends JPanel implements ActionListener {
 
 		switch (trainNum) {
 			case 0:
-				trainImage = "Train_Blue.png";
+				trainImage = "/Trains/Train_Blue.png";
 				break;
 			case 1:
-				trainImage = "Train_Green.png";
+				trainImage = "/Trains/Train_Green.png";
 				break;
 			case 2:
-				trainImage = "Train_Grey.png";
+				trainImage = "/Trains/Train_Grey.png";
 				break;
 			case 3:
-				trainImage = "Train_Orange.png";
+				trainImage = "/Trains/Train_Orange.png";
 				break;
 			case 4:
-				trainImage = "Train_Purple.png";
+				trainImage = "/Trains/Train_Purple.png";
 				break;
 			case 5:
-				trainImage = "Train_Red.png";
+				trainImage = "/Trains/Train_Red.png";
 				break;
 			case 6:
-				trainImage = "Train_White.png";
+				trainImage = "/Trains/Train_White.png";
 				break;
 			case 7:
-				trainImage = "Train_Yellow.png";
+				trainImage = "/Trains/Train_Yellow.png";
 				break;
 		}
 

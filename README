@@ -7,12 +7,11 @@ A simple game made in java. Inspired by the CrossyRoad app on android.
 
 
 --Changes--
-*Added game to git.
-*Created README.txt file.
-*Cleaned some code.
+*Cleaned up directory files.
+*Fixed code handling for sprite files.
 
 
 --To Fix--
-*Change java file handling to clean file directory.
 *Add sound effects to game.
 *Update sprites to 8-bit style.
+*Figure out why JAR file for game is skipping sprite painting.
