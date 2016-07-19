@@ -1,15 +1,15 @@
 --Title--
-Final project for java class.
+Froggy road
 
+--IDE--
+Was Eclipse, now Intellij.
 
---Description--
-A simple game made in java. Inspired by the CrossyRoad app on android.
-
+--About--
+Final project for java class (5-?-15). A simple game made in java. Inspired by the CrossyRoad app on android.
 
 --Changes--
 *Cleaned up directory files.
 *Fixed code handling for sprite files.
-
 
 --To Fix--
 *Add sound effects to game.
