@@ -2,8 +2,8 @@
 Froggy road.
 
 --To Fix--
-*Add sound effects to game.
-*Update sprites.
-*Figure out why JAR file for game is skipping sprite painting.
-*Remove stuttering.
-*Organize / optimize all code.
+Add sound effects to game.
+Update sprites.
+Figure out why JAR file for game is skipping sprite painting.
+Remove stuttering.
+Organize / optimize all code.
