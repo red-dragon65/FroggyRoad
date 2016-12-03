@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -14,7 +13,7 @@ import java.util.Random;
 //Class for random numbers.
 //Class for array lists.
 //Class for timer, JPanel and dialog boxes.
-//Class for files.
+
 
 
 /**
@@ -54,6 +53,7 @@ class Display extends JPanel implements ActionListener {
 
 	//Variable to hold score and travel.
 	private int score = 0, movement = 0;
+	private Score scoreManager = new Score();
 
 	//Variables for directional control.
 	private int up = 0, down = 0, left = 0, right = 0;
@@ -67,6 +67,7 @@ class Display extends JPanel implements ActionListener {
 
 	//Create random generator.
 	private Random rand = new Random();
+
 
 
 	/**
@@ -263,6 +264,7 @@ class Display extends JPanel implements ActionListener {
 	}
 
 
+
 	/**
 	 * Method that prevent hero from moving on trees, and checks
 	 * for death with water, train, or cars.
@@ -345,6 +347,44 @@ class Display extends JPanel implements ActionListener {
 		}
 
 	}
+
+	/**
+	 * Method to end game.
+	 * Stops loop, saves scores, displays message.
+	 */
+	private void killMsg(String killer) {
+
+		repaint();
+		gameLoop.stop();
+		scoreManager.updateScores(score);
+
+		//Displays correct message based on death.
+		switch (killer) {
+			case "water":
+				JOptionPane.showMessageDialog(null, "You drowned!" + "\nScore: " + score);
+				break;
+			case "tooFarDown":
+				JOptionPane.showMessageDialog(null, "You were trapped!" + "\nScore: " + score);
+				break;
+			case "tooFarUp":
+				JOptionPane.showMessageDialog(null, "You left the game!" + "\nScore: " + score);
+				break;
+			case "car":
+				JOptionPane.showMessageDialog(null, "You got hit by a car!" + "\nScore: " + score);
+				break;
+			case "train":
+				JOptionPane.showMessageDialog(null, "You got hit by a train!" + "\nScore: " + score);
+				break;
+		}
+
+		//Show start button.
+		//Start button makes new window.
+		startButton.setVisible(true);
+		controlsButton.setVisible(true);
+
+		showLogo = true;
+	}
+
 
 
 	/**
@@ -444,7 +484,6 @@ class Display extends JPanel implements ActionListener {
 		}
 	}
 
-
 	/**
 	 * Method that:
 	 * Moves cars.
@@ -504,43 +543,6 @@ class Display extends JPanel implements ActionListener {
 
 	}
 
-
-	/**
-	 * Method to end game.
-	 * Stops loop, saves scores, displays message.
-	 */
-	private void killMsg(String killer) {
-
-		repaint();
-		gameLoop.stop();
-		updateScores();
-
-		//Displays correct message based on death.
-		switch (killer) {
-			case "water":
-				JOptionPane.showMessageDialog(null, "You drowned!" + "\nScore: " + score);
-				break;
-			case "tooFarDown":
-				JOptionPane.showMessageDialog(null, "You were trapped!" + "\nScore: " + score);
-				break;
-			case "tooFarUp":
-				JOptionPane.showMessageDialog(null, "You left the game!" + "\nScore: " + score);
-				break;
-			case "car":
-				JOptionPane.showMessageDialog(null, "You got hit by a car!" + "\nScore: " + score);
-				break;
-			case "train":
-				JOptionPane.showMessageDialog(null, "You got hit by a train!" + "\nScore: " + score);
-				break;
-		}
-
-		//Show start button.
-		//Start button makes new window.
-		startButton.setVisible(true);
-		controlsButton.setVisible(true);
-
-		showLogo = true;
-	}
 
 
 	/**
@@ -933,86 +935,9 @@ class Display extends JPanel implements ActionListener {
 	}
 
 
-	/**
-	 * Method to update high score.
-	 */
-	private void updateScores() {
-
-		//Holds high score.
-		int fileScore = readScore();
 
 
-		//Calculate highscore.
-		if (score > fileScore) {
-			fileScore = score;
-		}
 
-
-		//Write binary data to file.
-		try {
-
-			FileOutputStream fstream = new FileOutputStream("Score.dat");
-			DataOutputStream outputFile = new DataOutputStream(fstream);
-
-			outputFile.writeInt(fileScore);
-
-			outputFile.close();
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Method that returns the high score.
-	 */
-	private int readScore() {
-
-		//Holds high score.
-		int fileScore = 0;
-
-		//Flag to stop reading file.
-		boolean endOfFile = false;
-
-
-		//Read binary data, or create if not there.
-		try {
-
-			FileInputStream fstream = new FileInputStream("Score.dat");
-			DataInputStream inputFile = new DataInputStream(fstream);
-
-			while (!endOfFile) {
-				try {
-
-					fileScore = inputFile.readInt();
-
-				} catch (EOFException e) {
-
-					endOfFile = true;
-				}
-			}
-
-			inputFile.close();
-
-		} catch (IOException e) {
-			try {
-
-				FileOutputStream fstream = new FileOutputStream("Score.dat");
-				DataOutputStream outputFile = new DataOutputStream(fstream);
-
-				outputFile.writeInt(0);
-
-				outputFile.close();
-
-			} catch (IOException ex) {
-
-				e.printStackTrace();
-			}
-		}
-
-		return fileScore;
-	}
 
 
 	/**
@@ -1048,7 +973,7 @@ class Display extends JPanel implements ActionListener {
 		g.setColor(Color.green);
 
 		//Draws the high score on the screen.
-		g.drawString("Top: " + readScore(), 50, 50);
+		g.drawString("Top: " + scoreManager.readScore(), 50, 50);
 
 
 		//Set the font size and color.
