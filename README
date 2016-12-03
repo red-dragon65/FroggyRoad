@@ -7,11 +7,5 @@ Was Eclipse, now Intellij.
 --About--
 Final project for java class (5-?-15). A simple game made in java. Inspired by the CrossyRoad app on android.
 
---Changes--
-*Cleaned up directory files.
-*Fixed code handling for sprite files.
-
 --To Fix--
-*Add sound effects to game.
-*Update sprites to 8-bit style.
-*Figure out why JAR file for game is skipping sprite painting.
+Check beta.
