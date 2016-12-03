@@ -206,7 +206,7 @@ class Display extends JPanel implements ActionListener {
 
 			//Method that prevents hero from moving onto 
 			//trees and checks for death and invincibility.
-			heroCollision();
+			heroBounds();
 
 			//Method to smoothly move the character one block.
 			jumpHero();
@@ -269,7 +269,7 @@ class Display extends JPanel implements ActionListener {
 	 * Method that prevent hero from moving on trees, and checks
 	 * for death with water, train, or cars.
 	 */
-	private void heroCollision() {
+	private void heroBounds() {
 
 		//Invincibility timing.
 		if (invincibility < invDuration && invincibility > 0)
@@ -550,7 +550,7 @@ class Display extends JPanel implements ActionListener {
 	 */
 	private void manageStrips() {
 
-		//All water strip variable.
+		//Blank strip test variables.
 		int allWater;
 		int allGrass;
 
@@ -560,7 +560,7 @@ class Display extends JPanel implements ActionListener {
 		//Cycles through each strip.
 		for (int v = 0; v < numOfStrips; v++) {
 
-			//Checks location of first strip.
+			//Checks if strip is out of bounds.
 			if (allStrips[v][0].getYLoc() > 800) {
 
 				//Generates a new strip.
@@ -695,6 +695,8 @@ class Display extends JPanel implements ActionListener {
 			}
 		}
 	}
+
+
 
 	/**
 	 * Method that creates and resets cars on the road strip.
@@ -917,6 +919,8 @@ class Display extends JPanel implements ActionListener {
 		return trainImage;
 	}
 
+
+
 	/**
 	 * Scrolls the strips and the hero.
 	 */
@@ -933,10 +937,6 @@ class Display extends JPanel implements ActionListener {
 			hero.setYDir(2);
 		}
 	}
-
-
-
-
 
 
 
