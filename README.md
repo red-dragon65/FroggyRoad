@@ -2,7 +2,11 @@
 Java game that emulates frogger and crossy roads. Currently updating code structure in beta branch. This game does not use any sort of game engine or framework.
 
 ### Future updates
-* Check beta branch
+* Add sound effects to game.
+* Update sprites.
+* Figure out why JAR file for game is skipping sprite painting.
+* Optimize manageStrips code.
+* Make background scroll while in selection screen.
 
 # Development
 ### Made with
