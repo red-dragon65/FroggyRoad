@@ -1,12 +1,18 @@
 --Title--
 Froggy road.
 
---To Fix--
+
+--IDE--
+Was Eclipse, now IntelliJ.
+
+
+--About--
+Final project for java class (5-?-15). A simple game made in java. Inspired by the CrossyRoad app on android.
+
+
+--To Add--
 Add sound effects to game.
 Update sprites.
 Figure out why JAR file for game is skipping sprite painting.
-Organize / optimize all code.
-
-
-Redo manageStrips code.
+Optimize manageStrips code.
 Make background scroll while in selection screen.
