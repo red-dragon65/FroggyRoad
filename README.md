@@ -1,7 +1,7 @@
 # Froggy Road
-Java game made with IntelliJ
-Final project for java class (5-?-15).
-Inspired by the CrossyRoad app on android.
+* Made with IntelliJ
+* Final project for java class (5-?-15).
+* Inspired by the CrossyRoad app on android.
 
 
 # Screen Shots
