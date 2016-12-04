@@ -341,7 +341,7 @@ class Display extends JPanel implements ActionListener {
 
 					//Prevents hero from jumping through trees.
 					if (s.getFileName().equals("Misc/Tree_One.png") || s.getFileName().equals("Misc/Tree_Two.png")) {
-						if (hero.isCollision(s)) {
+						if (collision(hero, s)) {
 
 							if ((s.getYLoc() + 100) - (hero.getYLoc()) < 5 && (s.getXLoc() + 100) - hero.getXLoc() < 125 && (s.getXLoc() + 100) - hero.getXLoc() > 20) {
 								up = 0;
@@ -398,6 +398,10 @@ class Display extends JPanel implements ActionListener {
 	 * Moves the character one strip forward or
 	 * one strip backwards WITHOUT OFF-SETTING THE
 	 * LOCATION DUE TO SCROLLING.
+	 *
+	 * Moves hero sprite smoothly by movement and not location.
+	 * up,down,left,right : number of iterations.
+	 * press : prevents over moving issue.
 	 */
 	private void jumpHero() {
 
@@ -405,9 +409,7 @@ class Display extends JPanel implements ActionListener {
 		int location;
 
 
-		//Moves hero sprite smoothly by movement and not location.
-		//up,down,left,right : number of iterations.
-		//press : prevents over moving issue.
+		//If left/right is pressed.
 		if (left > 0 && press) {
 			hero.setXDir(-12.5);
 			left--;
@@ -536,7 +538,7 @@ class Display extends JPanel implements ActionListener {
 
 
 			//Checks for car collisions.
-			if (car.isCollision(hero) && !invincibility) {
+			if (collision(car, hero) && !invincibility) {
 
 				//Method to end game.
 				killMsg("car");
@@ -589,7 +591,7 @@ class Display extends JPanel implements ActionListener {
 
 
 			//Checks for train collisions.
-			if (train.isCollision(hero) && !invincibility) {
+			if (collision(train, hero) && !invincibility) {
 
 				//Method to end game.
 				killMsg("train");
@@ -772,6 +774,18 @@ class Display extends JPanel implements ActionListener {
 		if (!press) {
 			hero.setYDir(2);
 		}
+	}
+
+	/**
+	 * Checks for sprite collisions.
+	 */
+	private boolean collision(Sprite one, Sprite two) {
+
+		//Creates rectangles around sprites and checks for interesection.
+		Rectangle first = new Rectangle(one.getXLoc(), one.getYLoc(), one.getWidth(), one.getHeight());
+		Rectangle second = new Rectangle(two.getXLoc(), two.getYLoc(), two.getWidth(), two.getHeight());
+
+		return first.intersects(second);
 	}
 
 	/**

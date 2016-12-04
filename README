@@ -8,8 +8,5 @@ Figure out why JAR file for game is skipping sprite painting.
 Organize / optimize all code.
 
 
-Set collision code from sprite to display to reduce repeat code.
 Redo manageStrips code.
 Make background scroll while in selection screen.
-
-merge jumpHero and heroBounds
