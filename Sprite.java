@@ -143,12 +143,10 @@ class Sprite {
 	}
 
 
-	/*
-	 * Collision method.
-	 */
+
 	//Return the width of the sprite
 	//or 20 if the image is null.
-	private int getWidth() {
+	int getWidth() {
 		if (image == null)
 			return 20;
 		else
@@ -157,21 +155,11 @@ class Sprite {
 
 	//Return the height of the sprite
 	//or 20 if the image in null.
-	private int getHeight() {
+	int getHeight() {
 		if (image == null)
 			return 20;
 		else
 			return image.getIconHeight();
-	}
-
-	//Method to check for collisions.
-	boolean isCollision(Sprite obj) {
-
-		//Creates rectangles around sprites and checks for interesection.
-		Rectangle sprite = new Rectangle((int) xloc, (int) yloc, getWidth(), getHeight());
-		Rectangle object = new Rectangle(obj.getXLoc(), obj.getYLoc(), obj.getWidth(), obj.getHeight());
-
-		return sprite.intersects(object);
 	}
 
 
