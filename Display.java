@@ -47,6 +47,7 @@ class Display extends JPanel implements ActionListener {
 	private ArrayList<Sprite> trains = new ArrayList<>();
 	private JButton startButton, controlsButton;
 
+	private ManageVehicles vManager = new ManageVehicles();
 
 	//Create hero sprite.
 	private Sprite hero = new Sprite("Frog/Frog_up.png");
@@ -66,8 +67,9 @@ class Display extends JPanel implements ActionListener {
 	//Create timer.
 	private Timer gameLoop;
 
-	//Create random generator.
-	private Random rand = new Random();
+    //Create random generator.
+    private Random rand = new Random();
+
 
 
 
@@ -251,6 +253,7 @@ class Display extends JPanel implements ActionListener {
 	}
 
 
+
 	/**
 	 * Method that starts a new game.
 	 */
@@ -266,6 +269,43 @@ class Display extends JPanel implements ActionListener {
 			new Window(false);
 		}
 	}
+
+    /**
+     * Method to end game.
+     * Stops loop, saves scores, displays message.
+     */
+    private void killMsg(String killer) {
+
+        repaint();
+        gameLoop.stop();
+        scoreManager.updateScores(score);
+
+        //Displays correct message based on death.
+        switch (killer) {
+            case "water":
+                JOptionPane.showMessageDialog(null, "You drowned!" + "\nScore: " + score);
+                break;
+            case "tooFarDown":
+                JOptionPane.showMessageDialog(null, "You were trapped!" + "\nScore: " + score);
+                break;
+            case "tooFarUp":
+                JOptionPane.showMessageDialog(null, "You left the game!" + "\nScore: " + score);
+                break;
+            case "car":
+                JOptionPane.showMessageDialog(null, "You got hit by a car!" + "\nScore: " + score);
+                break;
+            case "train":
+                JOptionPane.showMessageDialog(null, "You got hit by a train!" + "\nScore: " + score);
+                break;
+        }
+
+        //Show start button.
+        //Start button makes new window.
+        startButton.setVisible(true);
+        controlsButton.setVisible(true);
+
+        showLogo = true;
+    }
 
 
 
@@ -353,45 +393,6 @@ class Display extends JPanel implements ActionListener {
 		}
 
 	}
-
-	/**
-	 * Method to end game.
-	 * Stops loop, saves scores, displays message.
-	 */
-	private void killMsg(String killer) {
-
-		repaint();
-		gameLoop.stop();
-		scoreManager.updateScores(score);
-
-		//Displays correct message based on death.
-		switch (killer) {
-			case "water":
-				JOptionPane.showMessageDialog(null, "You drowned!" + "\nScore: " + score);
-				break;
-			case "tooFarDown":
-				JOptionPane.showMessageDialog(null, "You were trapped!" + "\nScore: " + score);
-				break;
-			case "tooFarUp":
-				JOptionPane.showMessageDialog(null, "You left the game!" + "\nScore: " + score);
-				break;
-			case "car":
-				JOptionPane.showMessageDialog(null, "You got hit by a car!" + "\nScore: " + score);
-				break;
-			case "train":
-				JOptionPane.showMessageDialog(null, "You got hit by a train!" + "\nScore: " + score);
-				break;
-		}
-
-		//Show start button.
-		//Start button makes new window.
-		startButton.setVisible(true);
-		controlsButton.setVisible(true);
-
-		showLogo = true;
-	}
-
-
 
 	/**
 	 * Moves the character one strip forward or
@@ -504,14 +505,34 @@ class Display extends JPanel implements ActionListener {
 
 			Sprite car = cars.get(i);
 
-			//Moves car sprites.
-			car.move();
+            //Removes cars passing Y bounds.
+            if (car.getYLoc() > 800) {
+                cars.remove(i);
+            }else {
 
-			//Removes cars passing Y bounds.
-			if (car.getYLoc() > 800)
-				cars.remove(i);
+                //Moves car sprites.
+                car.move();
 
 
+                //Reset cars passing X bounds.
+                if (car.getXLoc() < -(rand.nextInt(700) + 400)){
+
+                    //Right to left.
+                    car.setXDir(-(rand.nextInt(10) + 10));
+
+                    car.setXLoc(900);
+
+                    car.setImage(vManager.randomCar("left"));
+                } else if (car.getXLoc() > (rand.nextInt(700) + 1100)) {
+
+                    //Left to right.
+                    car.setXDir((rand.nextInt(10) + 10));
+
+                    car.setXLoc(-200);
+
+                    car.setImage(vManager.randomCar("right"));
+                }
+            }
 
 
 			//Checks for car collisions.
@@ -536,14 +557,36 @@ class Display extends JPanel implements ActionListener {
 		//Cycles through car sprites.
 		for (int i = 0; i < trains.size(); i++) {
 
+
 			Sprite train = trains.get(i);
 
-			//Moves train sprites.
-			train.move();
 
-			//Removes trains passing Y bounds.
-			if (train.getYLoc() > 800)
-				trains.remove(i);
+            //Removes trains passing Y bounds.
+            if (train.getYLoc() > 800) {
+                trains.remove(i);
+            }else {
+
+                //Moves train sprites.
+                train.move();
+
+
+                //Reset X bounds.
+                if (train.getXLoc() < -(rand.nextInt(2500) + 2600)) {
+                    train.setXDir(-(rand.nextInt(10) + 30));
+
+                    train.setXLoc(900);
+
+                    train.setImage(vManager.randomTrain());
+                } else if (train.getXLoc() > rand.nextInt(2500) + 1800) {
+                    train.setXDir((rand.nextInt(10) + 30));
+
+                    train.setXLoc(-1500);
+
+                    train.setImage(vManager.randomTrain());
+                }
+
+            }
+
 
 			//Checks for train collisions.
 			if (train.isCollision(hero) && !invincibility) {
@@ -554,8 +597,6 @@ class Display extends JPanel implements ActionListener {
 		}
 
 	}
-
-
 
 	/**
 	 * Method that correctly resets the strips.
@@ -701,240 +742,17 @@ class Display extends JPanel implements ActionListener {
 					X += 100;
 				}
 
-				//Method to set cars.
-				setCars(v);
-
+				//Set car.
 				if (allStrips[v][0].getFileName().equals("Misc/Road.png")){
-
+				    cars.add(vManager.setCar(allStrips[v][0].getYLoc() + 10));
 				}
 
-				//Method to set trains.
-				setTrains(v);
+				//Set train.
+                if (allStrips[v][0].getFileName().equals("Misc/Tracks.png")) {
+                    trains.add(vManager.setTrain(allStrips[v][0].getYLoc() + 10));
+                }
 			}
 		}
-	}
-
-
-
-	/**
-	 * Method that creates and resets cars on the road strip.
-	 */
-	private void setCars(int v) {
-
-		//Sets car sprite.
-		if (allStrips[v][0].getFileName().equals("Misc/Road.png")) {
-
-			//Makes sprite.
-			Sprite car = new Sprite();
-
-			//Scrolls sprite.
-			car.setYDir(2);
-
-			//Set sprite to strip location.
-			car.setYLoc(allStrips[v][0].getYLoc() + 10);
-
-			if (rand.nextInt(2) == 1) {
-				//Right to left.
-				car.setXLoc(900);
-				car.setXDir(-(rand.nextInt(10) + 10));
-				car.setImage(randomCar("left"));
-
-			} else {
-				//Left to right.
-				car.setXLoc(-200);
-				car.setXDir((rand.nextInt(10) + 10));
-				car.setImage(randomCar("right"));
-			}
-
-			//Add sprite to array.
-			cars.add(car);
-		}
-
-
-		//Resets cars passing X bounds.
-		for (Sprite s : cars) {
-
-			if (s.getXLoc() < -200) {
-
-				//Right to left.
-				s.setXDir(-(rand.nextInt(10) + 10));
-
-				s.setXLoc(900);
-
-				s.setImage(randomCar("left"));
-			} else if (s.getXLoc() > 900) {
-
-				//Left to right.
-				s.setXDir((rand.nextInt(10) + 10));
-
-				s.setXLoc(-200);
-
-				s.setImage(randomCar("right"));
-			}
-		}
-	}
-
-	/**
-	 * Method to return random car color.
-	 */
-	private String randomCar(String dir) {
-
-		//Car color variables.
-		int carColor = rand.nextInt(8);
-		String carImage = "";
-
-		if (dir.equals("left")) {
-
-			switch (carColor) {
-				case 0:
-					carImage = "/Car_Left/Car_Left_Blue.png";
-					break;
-				case 1:
-					carImage = "/Car_Left/Car_Left_Green.png";
-					break;
-				case 2:
-					carImage = "/Car_Left/Car_Left_Grey.png";
-					break;
-				case 3:
-					carImage = "/Car_Left/Car_Left_Orange.png";
-					break;
-				case 4:
-					carImage = "/Car_Left/Car_Left_Purple.png";
-					break;
-				case 5:
-					carImage = "/Car_Left/Car_Left_Red.png";
-					break;
-				case 6:
-					carImage = "/Car_Left/Car_Left_White.png";
-					break;
-				case 7:
-					carImage = "/Car_Left/Car_Left_Yellow.png";
-					break;
-			}
-		}
-
-		if (dir.equals("right")) {
-
-			switch (carColor) {
-				case 0:
-					carImage = "/Car_Right/Car_Right_Blue.png";
-					break;
-				case 1:
-					carImage = "/Car_Right/Car_Right_Green.png";
-					break;
-				case 2:
-					carImage = "/Car_Right/Car_Right_Grey.png";
-					break;
-				case 3:
-					carImage = "/Car_Right/Car_Right_Orange.png";
-					break;
-				case 4:
-					carImage = "/Car_Right/Car_Right_Purple.png";
-					break;
-				case 5:
-					carImage = "/Car_Right/Car_Right_Red.png";
-					break;
-				case 6:
-					carImage = "/Car_Right/Car_Right_White.png";
-					break;
-				case 7:
-					carImage = "/Car_Right/Car_Right_Yellow.png";
-					break;
-			}
-		}
-
-		return carImage;
-	}
-
-	/**
-	 * Method that creates and resets trains on the track strip.
-	 */
-	private void setTrains(int v) {
-
-		//Sets train sprite.
-		if (allStrips[v][0].getFileName().equals("Misc/Tracks.png")) {
-
-			//Makes sprite.
-			Sprite train = new Sprite(randomTrain());
-
-			//Scrolls sprite.
-			train.setYDir(2);
-
-			//Set sprite to strip location.
-			train.setYLoc(allStrips[v][0].getYLoc() + 10);
-
-			if (rand.nextInt(2) == 1) {
-				//Right to left.
-				train.setXLoc(900);
-				train.setXDir(-(rand.nextInt(10) + 30));
-			} else {
-				//Left to right.
-				train.setXLoc(-1500);
-				train.setXDir((rand.nextInt(10) + 30));
-			}
-
-			//Add sprite to array.
-			trains.add(train);
-		}
-
-
-		//Resets trains passing X bounds.
-		for (Sprite s : trains) {
-
-			//Method to change train color.
-			if (s.getXLoc() < -(rand.nextInt(2000) + 1300)) {
-				s.setXDir(-(rand.nextInt(10) + 30));
-
-				s.setXLoc(900);
-
-				s.setImage(randomTrain());
-			} else if (s.getXLoc() > rand.nextInt(2000) + 900) {
-				s.setXDir((rand.nextInt(10) + 30));
-
-				s.setXLoc(-1500);
-
-				s.setImage(randomTrain());
-			}
-		}
-	}
-
-	/**
-	 * Method to return a random colored train.
-	 */
-	private String randomTrain() {
-
-		int trainNum = rand.nextInt(10);
-		String trainImage = "";
-
-
-		switch (trainNum) {
-			case 0:
-				trainImage = "/Trains/Train_Blue.png";
-				break;
-			case 1:
-				trainImage = "/Trains/Train_Green.png";
-				break;
-			case 2:
-				trainImage = "/Trains/Train_Grey.png";
-				break;
-			case 3:
-				trainImage = "/Trains/Train_Orange.png";
-				break;
-			case 4:
-				trainImage = "/Trains/Train_Purple.png";
-				break;
-			case 5:
-				trainImage = "/Trains/Train_Red.png";
-				break;
-			case 6:
-				trainImage = "/Trains/Train_White.png";
-				break;
-			case 7:
-				trainImage = "/Trains/Train_Yellow.png";
-				break;
-		}
-
-		return trainImage;
 	}
 
 
@@ -955,8 +773,6 @@ class Display extends JPanel implements ActionListener {
 			hero.setYDir(2);
 		}
 	}
-
-
 
 	/**
 	 * Draws graphics onto screen.

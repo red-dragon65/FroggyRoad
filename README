@@ -8,16 +8,8 @@ Figure out why JAR file for game is skipping sprite painting.
 Organize / optimize all code.
 
 
-Move car/train management code to a new class.
 Set collision code from sprite to display to reduce repeat code.
 Redo manageStrips code.
 Make background scroll while in selection screen.
-
-New class
-    randomCar       : no vars
-    randomTrain     : no vars
-
-    setCars         : int yloc
-
 
 merge jumpHero and heroBounds
