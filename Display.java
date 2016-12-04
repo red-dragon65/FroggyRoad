@@ -60,7 +60,8 @@ class Display extends JPanel implements ActionListener {
 	private boolean press = false;
 
 	//Variables for hero invincibility power.
-	private int invincibility = 0, invDuration = 150, invTimeLeft = 0;
+	private boolean invincibility = false;
+	private int invDuration = 0, invTimeLeft = 0;
 
 	//Create timer.
 	private Timer gameLoop;
@@ -243,6 +244,9 @@ class Display extends JPanel implements ActionListener {
 
 			//Redraws sprites on screen.
 			repaint();
+
+			//Stop stuttering (linux issue).
+			Toolkit.getDefaultToolkit().sync();
 		}
 	}
 
@@ -271,19 +275,21 @@ class Display extends JPanel implements ActionListener {
 	 */
 	private void heroBounds() {
 
-		//Invincibility timing.
-		if (invincibility < invDuration && invincibility > 0)
-			invincibility++;
-		else if (invincibility == invDuration)
-			invincibility = -1;
+		//Invincibility countdown.
+		if(invincibility){
+			invDuration++;
 
-		//Counts down from 3.
-		if (invincibility == 10)
-			invTimeLeft = 3;
-		else if (invincibility == 50)
-			invTimeLeft = 2;
-		else if (invincibility == 100)
-			invTimeLeft = 1;
+			if(invDuration == 1)
+				invTimeLeft = 3;
+			if(invDuration == 50)
+				invTimeLeft = 2;
+			if(invDuration == 100)
+				invTimeLeft = 1;
+			if(invDuration == 150) {
+				invTimeLeft = 0;
+				invincibility = false;
+			}
+		}
 
 
 		//Collision method for frog.
@@ -291,7 +297,7 @@ class Display extends JPanel implements ActionListener {
 			for (Sprite s : allStrips[i]) {
 
 				//Checks too see if user is invincible.
-				if (invincibility <= 0) {
+				if (!invincibility) {
 
 					//Prevents hero from jumping through trees.
 					if (s.getFileName().equals("Misc/Tree_One.png") || s.getFileName().equals("Misc/Tree_Two.png")) {
@@ -489,6 +495,7 @@ class Display extends JPanel implements ActionListener {
 	 * Moves cars.
 	 * Removes cars passing Y bounds.
 	 * Checks for car collisions.
+	 * Note: foreach not working correctly.
 	 */
 	private void manageCars() {
 
@@ -504,13 +511,18 @@ class Display extends JPanel implements ActionListener {
 			if (car.getYLoc() > 800)
 				cars.remove(i);
 
+
+
+
 			//Checks for car collisions.
-			if (car.isCollision(hero) && invincibility <= 0) {
+			if (car.isCollision(hero) && !invincibility) {
 
 				//Method to end game.
 				killMsg("car");
 			}
 		}
+
+
 	}
 
 	/**
@@ -534,7 +546,7 @@ class Display extends JPanel implements ActionListener {
 				trains.remove(i);
 
 			//Checks for train collisions.
-			if (train.isCollision(hero) && invincibility <= 0) {
+			if (train.isCollision(hero) && !invincibility) {
 
 				//Method to end game.
 				killMsg("train");
@@ -554,8 +566,6 @@ class Display extends JPanel implements ActionListener {
 		int allWater;
 		int allGrass;
 
-		//Variable to reset horizontal strip location.
-		int X = 0;
 
 		//Cycles through each strip.
 		for (int v = 0; v < numOfStrips; v++) {
@@ -632,11 +642,12 @@ class Display extends JPanel implements ActionListener {
 							for (int i = 0; i < 8; i++) {
 								if (allStrips[v][i].getFileName().equals("Misc/Lillypad.png")) {
 									//TODO: Remove
-									for (int x = 0; x < special.size(); x++) {
-										if (i == special.get(x)) {
-											val++;
-										}
-									}
+                                    for(int s : special){
+                                        if (i == s) {
+                                            val++;
+                                        }
+
+                                    }
 								}
 							}
 						}
@@ -678,6 +689,9 @@ class Display extends JPanel implements ActionListener {
 				}
 
 
+				//Variable to reset horizontal strip location.
+				int X = 0;
+
 				//Reset the location of the strip.
 				for (int i = 0; i < 8; i++) {
 
@@ -689,6 +703,10 @@ class Display extends JPanel implements ActionListener {
 
 				//Method to set cars.
 				setCars(v);
+
+				if (allStrips[v][0].getFileName().equals("Misc/Road.png")){
+
+				}
 
 				//Method to set trains.
 				setTrains(v);
@@ -993,7 +1011,7 @@ class Display extends JPanel implements ActionListener {
 		g.setColor(Color.red);
 
 		//Draws invincibility status.
-		if (invincibility > 0)
+		if (invincibility)
 			g.drawString("" + invTimeLeft, 350, 350);
 
 
@@ -1003,6 +1021,9 @@ class Display extends JPanel implements ActionListener {
 			logo.setYLoc(75);
 			logo.paint(g, this);
 		}
+
+		//Stop stuttering (linux issue).
+		Toolkit.getDefaultToolkit().sync();
 	}
 
 
@@ -1042,8 +1063,8 @@ class Display extends JPanel implements ActionListener {
 					}
 					break;
 				case KeyEvent.VK_CONTROL:
-					if (invincibility == 0)
-						invincibility++;
+					if (!invincibility && invDuration < 150)
+						invincibility = true;
 					break;
 				case KeyEvent.VK_SHIFT:
 					if (gameLoop.isRunning())
