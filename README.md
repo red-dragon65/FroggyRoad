@@ -1,7 +1,19 @@
 # Froggy Road
-* Made with IntelliJ
-* Final project for java class (5-?-15).
-* Inspired by the CrossyRoad app on android.
+Java game that emulates frogger and crossy roads. Currently updating code structure in beta branch. This game does not use any sort of game engine or framework.
+
+### Future updates
+* Check beta branch
+
+# Development
+### Made with
+* [ItelliJ](https://www.jetbrains.com/idea/) - IDE (Previously was Eclipse)
+
+### Made for
+* Java class (5-?-15) as final project
+
+### Acknowledgements
+* Spiritual succesor to a failed infinite frogger game.
+* Later inspired by the CrossyRoad app on android.
 
 
 # Screen Shots
