@@ -10,7 +10,7 @@ Java game that emulates frogger and crossy roads. Currently updating code struct
 
 # Development
 ### Made with
-* [ItelliJ](https://www.jetbrains.com/idea/) - IDE (Previously was Eclipse)
+* [IntelliJ](https://www.jetbrains.com/idea/) - IDE (Previously was Eclipse)
 
 ### Made for
 * Java class (5-?-15) as final project
