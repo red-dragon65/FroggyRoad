@@ -1,6 +1,9 @@
 # Froggy Road
 Java game that emulates frogger and crossy roads. Currently updating code structure in beta branch. This game does not use any sort of game engine or framework.
 
+### Warning
+- This project does not follow any *SOLID principles* or *Design patterns*. Traverse at your own risk!
+
 ### Future updates
 * Add sound effects to game.
 * Update sprites.
